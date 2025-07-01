@@ -87,7 +87,7 @@ post-cleanup:
 	chmod +x ./deploy-to-sandbox/post_cleanup_nso.sh
 	./deploy-to-sandbox/post_cleanup_nso.sh
 
-build-deploy-sandbox: build-nso deploy-nso verify-nso post-cleanup
+build-deploy-sandbox: build-sandbox deploy-sandbox verify-sandbox post-cleanup
 
 # ===========================================================================
 # Project help
