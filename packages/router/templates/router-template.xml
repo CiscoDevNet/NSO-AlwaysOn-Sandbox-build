@@ -1,0 +1,82 @@
+<config-template xmlns="http://tail-f.com/ns/config/1.0"
+  servicepoint="router">
+  <devices xmlns="http://tail-f.com/ns/ncs">
+    <device>
+      <name>{/device}</name>
+      <config>
+        <ip xmlns="urn:ios">
+          <name-server>
+            <?foreach {/sys/dns/server}?>
+            <name-server-list>
+              <address>{address}</address>
+            </name-server-list>
+            <?end?>
+          </name-server>
+        </ip>
+        <ip xmlns="http://tail-f.com/ned/cisco-nx">
+          <name-server>
+            <?foreach {/sys/dns/server}?>
+            <servers>{address}</servers>
+            <?end?>
+          </name-server>
+        </ip>
+        <domain xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <?foreach {/sys/dns/server}?>
+          <name-server>
+            <address>{address}</address>
+          </name-server>
+          <?end?>
+        </domain>
+        <ntp xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <server>
+            <?foreach {/sys/ntp/server}?>
+            <server-list>
+              <name>{name}</name>
+            </server-list>
+            <?end?>
+          </server>
+        </ntp>
+        <ntp xmlns="urn:ios">
+          <trusted-key>
+            <key-number>{/sys/ntp/key}</key-number>
+          </trusted-key>
+          <server>
+            <?foreach {/sys/ntp/server}?>
+            <peer-list>
+              <name>{name}</name>
+            </peer-list>
+            <?end?>
+          </server>
+        </ntp>
+        <ntp xmlns="http://tail-f.com/ned/cisco-nx">
+          <?foreach {/sys/ntp/server}?>
+          <server>
+            <id>{name}</id>
+          </server>
+          <?end?>
+        </ntp>
+        <logging xmlns="http://tail-f.com/ned/cisco-ios-xr">
+          <?foreach {/sys/syslog/server}?>
+          <host>
+            <address>{name}</address>
+          </host>
+          <?end?>
+        </logging>
+        <logging xmlns="urn:ios">
+          <?foreach {/sys/syslog/server}?>
+          <hostname>
+            <host>{name}</host>
+          </hostname>
+          <?end?>
+        </logging>
+        <logging xmlns="http://tail-f.com/ned/cisco-nx">
+          <server>
+            <?foreach {/sys/syslog/server}?>
+            <host>{name}</host>
+            <?end?>
+          </server>
+        </logging>
+      </config>
+    </device>
+  </devices>
+</config-template>

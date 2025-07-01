@@ -1,0 +1,10 @@
+*.env
+
+# NSO container image files (should not be committed to repository)
+nso*.tar.gz
+ncs*.tar.gz
+nso*.signed.bin
+*.tar.gz.signature
+README.signature
+tailf.cer
+cisco_x509_verify_release.py3
