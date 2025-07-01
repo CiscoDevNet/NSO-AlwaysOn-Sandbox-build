@@ -1,0 +1,41 @@
+# Image project: https://wwwin-github.cisco.com/nso-devnet/NSO-AlwaysOn-Sandbox
+# docker compose --profile prod up --wait -d
+# docker compose --profile prod down
+
+services:
+  nso:
+    image: ${TAG_IMAGE}:${NSO_VERSION}
+    container_name: ${CONTAINER_NAME:-sandbox-nso}
+    hostname: ${CONTAINER_NAME:-sandbox-nso}
+    tty: true
+    restart: always
+    environment:
+      - EXTRA_ARGS=--with-package-reload
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+    profiles:
+      - prod
+    networks:
+      nso_net:
+        ipv4_address: ${CONTAINER_IP:-10.10.20.57}
+    ports:
+      - "443:443"
+      - "2024:2024"
+    healthcheck:
+      test: ncs_cmd -c "wait-start 2"
+      interval: 5s
+      retries: 5
+      start_period: 10s
+      timeout: 10s
+    volumes:
+      - ${HOME}/ssl:/nso/etc/ssl:ro
+
+networks:
+  nso_net:
+    ipam:
+      config:
+        - subnet: ${CONTAINER_NETWORK:-10.10.20.0/24}
+          gateway: ${CONTAINER_GW:-10.10.20.254}
+    driver: ipvlan
+    driver_opts:
+      ipvlan_mode: l2
+      parent: ${PARENT_INTERFACE:-ens160}
