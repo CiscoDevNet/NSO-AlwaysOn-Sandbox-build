@@ -93,10 +93,11 @@ make cleanup-temp-files
 
 Commit changes and create a git tag with the NSO version:
 
+> [!NOTE]
+> Replace `<version>` with the actual NSO version you are updating to, e.g., `6.4.4.1`
+
 ```bash
-git add .
-git commit -m "Update to NSO version 6.4.4.1"
-git tag v6.4.4.1
+git tag v<version>
 git push origin main --tags
 ```
 
@@ -107,9 +108,12 @@ git push origin main --tags
 1. **Clone the repository** with the specific NSO version tag:
 
    ```bash
-   git clone --branch v6.4.4.1 <repository-url>
+   git clone --branch v<version> https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build.git
    cd NSO-AlwaysOn-Sandbox-build
    ```
+
+> [!NOTE]
+> Replace `<version>` with the actual NSO version you are updating to, e.g., `6.4.4.1`
 
 2. **Download** the corresponding NSO container image from [software.cisco.com](https://software.cisco.com/download/home) and **place it in the project root**. The filename should be: `nso-<version>.container-image-prod.linux.x86_64.signed.bin`.
 
