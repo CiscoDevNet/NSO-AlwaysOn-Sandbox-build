@@ -105,7 +105,7 @@ git push origin main --tags
 
 ### For Sandbox Team
 
-1. **Clone the repository** with the specific NSO version tag:
+1. **Clone the repository** with the specific NSO version specified on the [sandbox_env_vars.sh file](sandbox_env_vars.sh#L2) as a tag. You can also find all the tags created on the [GitHub tags](https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build/tags) page.
 
    ```bash
    git clone --branch v<version> https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build.git
@@ -113,11 +113,11 @@ git push origin main --tags
    ```
 
 > [!NOTE]
-> Replace `<version>` with the actual NSO version you are updating to, e.g., `6.4.4.1`
+> Replace `<version>` with the actual NSO version you are updating to, e.g., `v6.4.4.1`
 
-2. **Download** the corresponding NSO container image from [software.cisco.com](https://software.cisco.com/download/home) and **place it in the project root**. The filename should be: `nso-<version>.container-image-prod.linux.x86_64.signed.bin`.
+1. **Download** the corresponding NSO container image from [software.cisco.com](https://software.cisco.com/download/home), look for "_Network Services Orchestrator_". Once you download it, **place it in the project root**. The filename should be: `nso-<version>.container-image-prod.linux.x86_64.signed.bin`.
 
-3. **SSL Certificates for Sandbox**
+2. **SSL Certificates for Sandbox**
 
    The SSL certificates must be placed in the correct directory structure before starting the container.
 
@@ -126,7 +126,6 @@ git push origin main --tags
    # Place your certificates:
    # ssl/cert/host.cert
    # ssl/cert/host.key
-   # ssl/cert/host.csr (optional)
    ```
 
 > [!NOTE]
