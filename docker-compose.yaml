@@ -38,4 +38,4 @@ networks:
     driver: ipvlan
     driver_opts:
       ipvlan_mode: l2
-      parent: ${PARENT_INTERFACE:-ens160}
+      parent: ${PARENT_INTERFACE:-ens192}
