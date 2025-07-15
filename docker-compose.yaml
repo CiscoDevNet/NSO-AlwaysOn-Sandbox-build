@@ -26,8 +26,6 @@ services:
       retries: 5
       start_period: 10s
       timeout: 10s
-    volumes:
-      - ${HOME}/ssl:/nso/etc/ssl:ro
 
 networks:
   nso_net:
@@ -38,4 +36,4 @@ networks:
     driver: ipvlan
     driver_opts:
       ipvlan_mode: l2
-      parent: ${PARENT_INTERFACE:-ens160}
+      parent: ${PARENT_INTERFACE:-ens192}

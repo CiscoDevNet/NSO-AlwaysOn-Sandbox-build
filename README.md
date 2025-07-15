@@ -115,23 +115,12 @@ git push origin main --tags
 > [!NOTE]
 > Replace `<version>` with the actual NSO version you are updating to, e.g., `v6.4.4.1`
 
-1. **Download** the corresponding NSO container image from [software.cisco.com](https://software.cisco.com/download/home), look for "_Network Services Orchestrator_". Once you download it, **place it in the project root**. The filename should be: `nso-<version>.container-image-prod.linux.x86_64.signed.bin`.
-
-2. **SSL Certificates for Sandbox**
-
-   The SSL certificates must be placed in the correct directory structure before starting the container.
-
-   ```bash
-   mkdir -p ${HOME}/ssl/cert
-   # Place your certificates:
-   # ssl/cert/host.cert
-   # ssl/cert/host.key
-   ```
+2. **Download** the corresponding NSO container image from [software.cisco.com](https://software.cisco.com/download/home), look for "_Network Services Orchestrator_". Once you download it, **place it in the project root**. The filename should be: `nso-<version>.container-image-prod.linux.x86_64.signed.bin`.
 
 > [!NOTE]
 > The docker-compose configuration will automatically mount these certificates to the NSO container.
 
-4. **Add the admin password**
+3. **Add the admin password**
 
    Add the admin password to a `.env` file in the root directory:
 
@@ -139,7 +128,7 @@ git push origin main --tags
    echo "ADMIN_PASSWORD=<admin_password>" > .env
    ```
 
-5. **Build for sandbox deployment**
+4. **Build for sandbox deployment**
 
    ```bash
    make extract-nso-image
@@ -151,7 +140,7 @@ git push origin main --tags
    make build-deploy-sandbox
    ```
 
-6. **Clean up** temporary files after deployment:
+5. **Clean up** temporary files after deployment:
 
    ```bash
    make cleanup-temp-files

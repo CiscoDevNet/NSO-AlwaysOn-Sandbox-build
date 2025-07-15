@@ -12,6 +12,8 @@ TAG_IMAGE=cisco-nso-prod-sandbox
 # SSH Configuration for Sandbox Access
 SSH_KEY_PATH=~/.ssh/sandbox_key
 SANDBOX_USER=developer
+
+# IP used to find parent interface for Docker networking
 SANDBOX_IP=10.10.20.52
 
 EXPECTED_CONTAINER_COUNT=1
