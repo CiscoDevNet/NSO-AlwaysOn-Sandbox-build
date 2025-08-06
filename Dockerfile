@@ -27,7 +27,8 @@ RUN groupadd ncsoper \
     && echo 'export PS1="developer:\W > "' >> /etc/bash.bashrc \
     && echo 'export PS1="developer:\W > "' >> /etc/profile.d/terminal.sh \
     && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> $HOME/.bashrc \
-    && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> /etc/profile.d/local.sh 
+    && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> /etc/profile.d/local.sh \
+    && pip install tacacs_plus
 
 RUN mv /tmp/config/phase0/ncs.conf.xml $NCS_CONFIG_DIR/ncs.conf \
     && mv /tmp/config/phase1/authgroups.xml $NCS_RUN_DIR/cdb/ \
