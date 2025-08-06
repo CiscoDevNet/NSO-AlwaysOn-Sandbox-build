@@ -264,11 +264,13 @@
 
     <package-authentication>
       <enabled>true</enabled>
-      <package>cisco-nso-tacacs-auth</package>
+      <packages>
+        <package>cisco-nso-tacacs-auth</package>
+      </packages>
     </package-authentication>
 
     <local-authentication>
-      <enabled>false</enabled>
+      <enabled>true</enabled>
     </local-authentication>
 
     <expiration-warning>prompt</expiration-warning>

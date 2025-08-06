@@ -40,6 +40,7 @@ RUN mv /tmp/config/phase0/ncs.conf.xml $NCS_CONFIG_DIR/ncs.conf \
     && ln -s $NCS_DIR/packages/neds/cisco-iosxr-cli-3.5 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-asa-cli-6.6 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-nx-cli-3.0 $NCS_RUN_DIR/packages/ \
+    && ln -s $NCS_DIR/packages/auth/cisco-nso-tacacs-auth/ $NCS_RUN_DIR/packages/ \
     && make -C /tmp/packages/router/src clean all \
     && chown -R developer /tmp/packages/router/ \
     && ln -s /tmp/packages/router/ $NCS_RUN_DIR/packages/

@@ -57,8 +57,13 @@ commit and-quit
 exit
 EOF
 
+
+echo "=============================================="
+echo "Phase 5: configuring tacacs authentication"
+
+# ncs_load -l -m /tmp/config/phase0/cisco-nso-tacacs-auth.xml
+
 echo "=============================================="
 echo "NSO Demo Environment Setup Complete!"
 echo "=============================================="
-
 cd -
