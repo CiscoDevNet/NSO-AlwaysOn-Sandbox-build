@@ -1,10 +1,16 @@
 ARG NSO_VERSION
 ARG BASE_IMAGE
+ARG TACACS_SERVER_HOST
+ARG TACACS_SERVER_PORT
+ARG TACACS_SERVER_SECRET
 FROM $BASE_IMAGE:$NSO_VERSION
 
 ARG ADMIN_PASSWORD
 ENV HOME=/home/developer \
-    ADMIN_PASSWORD=$ADMIN_PASSWORD
+    ADMIN_PASSWORD=$ADMIN_PASSWORD \
+    TACACS_SERVER_HOST=$TACACS_SERVER_HOST \
+    TACACS_SERVER_PORT=$TACACS_SERVER_PORT \
+    TACACS_SERVER_SECRET=$TACACS_SERVER_SECRET
 
 EXPOSE 443 2024 8080
 
@@ -36,6 +42,8 @@ RUN mv /tmp/config/phase0/ncs.conf.xml $NCS_CONFIG_DIR/ncs.conf \
     && mv /tmp/scripts/setup_demo_environment.sh $NCS_CONFIG_DIR/post-ncs-start.d/setup_demo_environment.sh \
     && chmod a+x $NCS_CONFIG_DIR/post-ncs-start.d/10-cron-logrotate.sh \
     && chmod a+x $NCS_CONFIG_DIR/post-ncs-start.d/setup_demo_environment.sh \
+    && chmod a+x /tmp/scripts/inject_tacacs_env.sh \
+    && /tmp/scripts/inject_tacacs_env.sh \
     && ln -s $NCS_DIR/packages/neds/cisco-ios-cli-3.8 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-iosxr-cli-3.5 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-asa-cli-6.6 $NCS_RUN_DIR/packages/ \

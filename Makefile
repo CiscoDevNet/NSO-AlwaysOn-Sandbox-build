@@ -51,12 +51,17 @@ cleanup-temp-files:
 	chmod +x ./deploy-to-sandbox/cleanup_temp_files.sh
 	./deploy-to-sandbox/cleanup_temp_files.sh
 
+validate-tacacs:
+	@echo "=== Validating TACACS environment configuration ==="
+	chmod +x ./scripts/validate_tacacs_env.sh
+	./scripts/validate_tacacs_env.sh
+
 # ===========================================================================
 # Local Container Development
 # ===========================================================================
 
 build: clean
-	$(CONTAINER_ENGINE) build --build-arg BASE_IMAGE=$(BASE_IMAGE) --build-arg NSO_VERSION=$(NSO_VERSION) --platform linux/amd64 --tag $(TAG) .
+	$(CONTAINER_ENGINE) build --build-arg BASE_IMAGE=$(BASE_IMAGE) --build-arg NSO_VERSION=$(NSO_VERSION) --build-arg TACACS_SERVER_HOST=$(TACACS_SERVER_HOST) --build-arg TACACS_SERVER_PORT=$(TACACS_SERVER_PORT) --build-arg TACACS_SERVER_SECRET=$(TACACS_SERVER_SECRET) --platform linux/amd64 --tag $(TAG) .
 
 run: clean
 	$(CONTAINER_ENGINE) run -itd --name $(CONTAINER_NAME) --platform linux/amd64 -v $(PWD)/packages:/home/developer/packages -p 50022:22 -p 443:443 -p 2024:2024 -p 8080:8080 -e ADMIN_PASSWORD=admin -u $(SANDBOX_USER) $(TAG)
@@ -75,7 +80,7 @@ follow:
 # ===========================================================================
 
 build-sandbox:
-	$(CONTAINER_ENGINE) build --build-arg BASE_IMAGE=$(BASE_IMAGE) --build-arg NSO_VERSION=$(NSO_VERSION) --platform linux/amd64 --no-cache --tag $(TAG) .
+	$(CONTAINER_ENGINE) build --build-arg BASE_IMAGE=$(BASE_IMAGE) --build-arg NSO_VERSION=$(NSO_VERSION) --build-arg TACACS_SERVER_HOST=$(TACACS_SERVER_HOST) --build-arg TACACS_SERVER_PORT=$(TACACS_SERVER_PORT) --build-arg TACACS_SERVER_SECRET=$(TACACS_SERVER_SECRET) --platform linux/amd64 --no-cache --tag $(TAG) .
 	
 deploy-sandbox:
 	@echo "=== Launching NSO container on sandbox VM ==="
@@ -103,6 +108,7 @@ help:
 	@echo ""
 	@echo "📋 Setup & Management:"
 	@echo "  cleanup-temp-files     - Clean temporary NSO files" 
+	@echo "  validate-tacacs        - Validate TACACS environment configuration"
 	@echo "  install-git-hooks      - Install git pre-commit hooks (manual)"
 	@echo ""
 	@echo "🔧 Development:"
@@ -124,6 +130,12 @@ help:
 	@echo "  verify-sandbox         - Verify sandbox deployment"
 	@echo "  post-cleanup           - Post-deployment cleanup"
 	@echo ""
-	@echo "🔒 Security:"
+	@echo "� TACACS+ Authentication:"
+	@echo "  Required environment variables in .env file:"
+	@echo "    TACACS_SERVER_HOST   - TACACS+ server IP/hostname"
+	@echo "    TACACS_SERVER_SECRET - TACACS+ shared secret"
+	@echo "    TACACS_SERVER_PORT   - TACACS+ port (optional, defaults to 49)"
+	@echo ""
+	@echo "�🔒 Security:"
 	@echo "  Git hooks prevent accidental commits of proprietary files"
 	@echo "  See docs/GIT_HOOK_PROTECTION.md for details"

@@ -61,7 +61,15 @@ EOF
 echo "=============================================="
 echo "Phase 5: configuring tacacs authentication"
 
-# ncs_load -l -m /tmp/config/phase0/cisco-nso-tacacs-auth.xml
+# Check if runtime TACACS configuration exists
+if [ -f "/tmp/config/phase0/cisco-nso-tacacs-auth-runtime.xml" ]; then
+    echo "Loading TACACS authentication configuration..."
+    ncs_load -l -m /tmp/config/phase0/cisco-nso-tacacs-auth-runtime.xml
+    echo "TACACS authentication configured successfully"
+else
+    echo "WARNING: TACACS runtime configuration not found. Skipping TACACS setup."
+    echo "Make sure environment variables are properly set during build."
+fi
 
 echo "=============================================="
 echo "NSO Demo Environment Setup Complete!"
