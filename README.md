@@ -158,7 +158,8 @@ git push origin main --tags
    echo "TACACS_SERVER_SECRET=<tacacs_server_secret>" >> .env
    ```
 
-   > [!IMPORTANT] > **TACACS Authentication Requirements**:
+   > [!IMPORTANT]
+   > TACACS Authentication Requirements:
    > Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
    > If either is missing, the build will fail with an error message.
    >
