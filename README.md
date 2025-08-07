@@ -46,19 +46,16 @@ nso-<version>.container-image-prod.linux.x86_64.signed.bin
 Create a `.env` file in the project root with the required variables:
 
 ```bash
+cat > .env << EOF
 # Required: Admin password for NSO
 ADMIN_PASSWORD=<admin_password>
 
-# Required: TACACS+ Authentication Settings
+# If using tacacs, add the following:
 TACACS_SERVER_HOST=<tacacs_server_ip>
 TACACS_SERVER_SECRET=<tacacs_server_secret>
-
-# Optional: TACACS+ port (defaults to 49)
 TACACS_SERVER_PORT=<tacacs_server_port>
+EOF
 ```
-
-> [!IMPORTANT]
-> Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are mandatory for the build to succeed.
 
 ### 4. Verify Image Information
 
@@ -152,24 +149,20 @@ git push origin main --tags
    Add the admin password and TACACS server configuration to a `.env` file in the root directory:
 
    ```bash
-   echo "ADMIN_PASSWORD=<admin_password>" > .env
-   echo "TACACS_SERVER_HOST=<tacacs_server_ip>" >> .env
-   echo "TACACS_SERVER_PORT=<tacacs_server_port>" >> .env
-   echo "TACACS_SERVER_SECRET=<tacacs_server_secret>" >> .env
+   cat > .env << EOF
+   ADMIN_PASSWORD=<admin_password>
+   TACACS_SERVER_HOST=<tacacs_server_ip>
+   TACACS_SERVER_PORT=<tacacs_server_port>
+   TACACS_SERVER_SECRET=<tacacs_server_secret>
+   EOF
    ```
 
-> [!IMPORTANT]
-> TACACS Authentication Requirements:
-> Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
-> If either is missing, the build will fail with an error message.
->
-> - `TACACS_SERVER_HOST`: IP address or hostname of your TACACS+ server
-> - `TACACS_SERVER_PORT`: Port number (default: 49 if not specified)
-> - `TACACS_SERVER_SECRET`: Shared secret for TACACS+ authentication
->
-> The TACACS configuration will be automatically injected into the NSO configuration during build time.
->
-> **Validation**: Run `make validate-tacacs` to verify your TACACS configuration before building.
+   **TACACS Authentication**
+   Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
+
+   The TACACS configuration is automatically created into NSO during build time and loaded at runtime.
+
+   If either `TACACS_SERVER_HOST` or `TACACS_SERVER_SECRET` is missing, no tacacs configuration will be built. An error message will be displayed.
 
 4. **Build for sandbox deployment**
 
