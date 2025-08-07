@@ -158,18 +158,18 @@ git push origin main --tags
    echo "TACACS_SERVER_SECRET=<tacacs_server_secret>" >> .env
    ```
 
-   > [!IMPORTANT]
-   > TACACS Authentication Requirements:
-   > Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
-   > If either is missing, the build will fail with an error message.
-   >
-   > - `TACACS_SERVER_HOST`: IP address or hostname of your TACACS+ server
-   > - `TACACS_SERVER_PORT`: Port number (default: 49 if not specified)
-   > - `TACACS_SERVER_SECRET`: Shared secret for TACACS+ authentication
-   >
-   > The TACACS configuration will be automatically injected into the NSO configuration during build time.
-   >
-   > **Validation**: Run `make validate-tacacs` to verify your TACACS configuration before building.
+> [!IMPORTANT]
+> TACACS Authentication Requirements:
+> Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
+> If either is missing, the build will fail with an error message.
+>
+> - `TACACS_SERVER_HOST`: IP address or hostname of your TACACS+ server
+> - `TACACS_SERVER_PORT`: Port number (default: 49 if not specified)
+> - `TACACS_SERVER_SECRET`: Shared secret for TACACS+ authentication
+>
+> The TACACS configuration will be automatically injected into the NSO configuration during build time.
+>
+> **Validation**: Run `make validate-tacacs` to verify your TACACS configuration before building.
 
 4. **Build for sandbox deployment**
 
