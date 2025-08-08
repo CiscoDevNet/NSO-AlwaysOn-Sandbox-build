@@ -270,7 +270,7 @@
     </package-authentication>
 
     <local-authentication>
-      <enabled>true</enabled>
+      <enabled>false</enabled>
     </local-authentication>
 
     <expiration-warning>prompt</expiration-warning>
