@@ -262,11 +262,19 @@
       <executable>my-test-auth.sh</executable>
     </external-authentication>
 
-    <local-authentication>
+    <package-authentication>
       <enabled>true</enabled>
+      <packages>
+        <package>cisco-nso-tacacs-auth</package>
+      </packages>
+    </package-authentication>
+
+    <local-authentication>
+      <enabled>false</enabled>
     </local-authentication>
 
     <expiration-warning>prompt</expiration-warning>
+
   </aaa>
 
   <!-- Hash algorithm used when setting leafs of type ianach:crypt-hash, -->

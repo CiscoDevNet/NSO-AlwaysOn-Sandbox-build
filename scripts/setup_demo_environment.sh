@@ -40,25 +40,38 @@ commit and-quit
 exit
 EOF
 
+# echo "=============================================="
+# echo "Phase 4: User Access Configuration"
+# echo "Configuring Developer user with READ-ONLY access..."
+# # Give Developer user READ-ONLY access to NSO at the end.
+# # Allow users to interact with netsim devices.
+# # Only works at runtime.
+# ncs_cli -Cu admin << EOF
+# config
+# nacm rule-list oper rule devices path /devices access-operations exec action permit
+# nacm rule-list oper cmdrule deny-commit command commit action deny
+# nacm rule-list oper cmdrule deny-config command config action deny
+# nacm rule-list oper cmdrule deny-configure command configure action deny
+# move nacm rule-list oper cmdrule any-command last
+# commit and-quit
+# exit
+# EOF
+
+
 echo "=============================================="
-echo "Phase 4: User Access Configuration"
-echo "Configuring Developer user with READ-ONLY access..."
-# Give Developer user READ-ONLY access to NSO at the end.
-# Allow users to interact with netsim devices.
-# Only works at runtime.
-ncs_cli -Cu admin << EOF
-config
-nacm rule-list oper rule devices path /devices access-operations exec action permit
-nacm rule-list oper cmdrule deny-commit command commit action deny
-nacm rule-list oper cmdrule deny-config command config action deny
-nacm rule-list oper cmdrule deny-configure command configure action deny
-move nacm rule-list oper cmdrule any-command last
-commit and-quit
-exit
-EOF
+echo "Phase 5: configuring tacacs authentication"
+
+# Check if runtime TACACS configuration exists
+if [ -f "/tmp/config/phase0/cisco-nso-tacacs-auth-runtime.xml" ]; then
+    echo "Loading TACACS authentication configuration..."
+    ncs_load -l -m /tmp/config/phase0/cisco-nso-tacacs-auth-runtime.xml
+    echo "TACACS authentication configured successfully"
+else
+    echo "WARNING: TACACS runtime configuration not found. Skipping TACACS setup."
+    echo "Make sure environment variables are properly set during build."
+fi
 
 echo "=============================================="
 echo "NSO Demo Environment Setup Complete!"
 echo "=============================================="
-
 cd -

@@ -12,6 +12,9 @@ services:
     environment:
       - EXTRA_ARGS=--with-package-reload
       - ADMIN_PASSWORD=${ADMIN_PASSWORD}
+      - TACACS_SERVER_HOST=${TACACS_SERVER_HOST}
+      - TACACS_SERVER_PORT=${TACACS_SERVER_PORT}
+      - TACACS_SERVER_SECRET=${TACACS_SERVER_SECRET}
     profiles:
       - prod
     networks:

@@ -41,7 +41,23 @@ NSO_VERSION=6.4.4.1
 nso-<version>.container-image-prod.linux.x86_64.signed.bin
 ```
 
-### 3. Verify Image Information
+### 3. Configure Environment Variables
+
+Create a `.env` file in the project root with the required variables:
+
+```bash
+cat > .env << EOF
+# Required: Admin password for NSO
+ADMIN_PASSWORD=<admin_password>
+
+# If using tacacs, add the following:
+TACACS_SERVER_HOST=<tacacs_server_ip>
+TACACS_SERVER_SECRET=<tacacs_server_secret>
+TACACS_SERVER_PORT=<tacacs_server_port>
+EOF
+```
+
+### 4. Verify Image Information
 
 Use the `check-image-info` target to ensure the `BASE_IMAGE` and `NSO_VERSION` variables match what you downloaded against the `sandbox_env_vars.sh`.
 
@@ -51,7 +67,15 @@ If they don't match, the rest of the scripts will fail. Update accordingly.
 make check-image-info
 ```
 
-### 4. Verify Local Build
+### 5. Validate TACACS Configuration
+
+Ensure your TACACS environment variables are properly configured:
+
+```bash
+make validate-tacacs
+```
+
+### 6. Verify Local Build
 
 Make sure your build works.
 
@@ -83,7 +107,7 @@ Access the container:
 make cli
 ```
 
-### 5. Create Version Tag
+### 7. Create Version Tag
 
 Clean up temporary files:
 
@@ -120,13 +144,25 @@ git push origin main --tags
 > [!NOTE]
 > The docker-compose configuration will automatically mount these certificates to the NSO container.
 
-3. **Add the admin password**
+3. **Add the admin password and TACACS configuration**
 
-   Add the admin password to a `.env` file in the root directory:
+   Add the admin password and TACACS server configuration to a `.env` file in the root directory:
 
    ```bash
-   echo "ADMIN_PASSWORD=<admin_password>" > .env
+   cat > .env << EOF
+   ADMIN_PASSWORD=<admin_password>
+   TACACS_SERVER_HOST=<tacacs_server_ip>
+   TACACS_SERVER_PORT=<tacacs_server_port>
+   TACACS_SERVER_SECRET=<tacacs_server_secret>
+   EOF
    ```
+
+   **TACACS Authentication**
+   Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
+
+   The TACACS configuration is automatically created into NSO during build time and loaded at runtime.
+
+   If either `TACACS_SERVER_HOST` or `TACACS_SERVER_SECRET` is missing, no tacacs configuration will be built. An error message will be displayed.
 
 4. **Build for sandbox deployment**
 
@@ -163,9 +199,10 @@ The Dockerfile performs the following automation steps:
 
 1. **User Setup**: Creates a `developer` user with proper permissions.
 2. **Configuration**: Copies NSO configuration files to correct locations.
-3. **NED Installation**: Links required Network Element Drivers (NEDs).
-4. **Package Compilation**: Builds the router package with YANG models.
-5. **Environment Setup**: Configures bash aliases and PATH variables.
+3. **TACACS Authentication**: Injects TACACS+ server configuration from environment variables.
+4. **NED Installation**: Links required Network Element Drivers (NEDs).
+5. **Package Compilation**: Builds the router package with YANG models.
+6. **Environment Setup**: Configures bash aliases and PATH variables.
 
 ### Pre-installed Components
 

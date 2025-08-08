@@ -3,8 +3,14 @@ ARG BASE_IMAGE
 FROM $BASE_IMAGE:$NSO_VERSION
 
 ARG ADMIN_PASSWORD
+ARG TACACS_SERVER_HOST
+ARG TACACS_SERVER_PORT
+ARG TACACS_SERVER_SECRET
 ENV HOME=/home/developer \
-    ADMIN_PASSWORD=$ADMIN_PASSWORD
+    ADMIN_PASSWORD=$ADMIN_PASSWORD \
+    TACACS_SERVER_HOST=$TACACS_SERVER_HOST \
+    TACACS_SERVER_PORT=$TACACS_SERVER_PORT \
+    TACACS_SERVER_SECRET=$TACACS_SERVER_SECRET
 
 EXPOSE 443 2024 8080
 
@@ -27,7 +33,8 @@ RUN groupadd ncsoper \
     && echo 'export PS1="developer:\W > "' >> /etc/bash.bashrc \
     && echo 'export PS1="developer:\W > "' >> /etc/profile.d/terminal.sh \
     && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> $HOME/.bashrc \
-    && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> /etc/profile.d/local.sh 
+    && echo 'export PATH="/opt/ncs/current/bin:$PATH"' >> /etc/profile.d/local.sh \
+    && pip install tacacs_plus
 
 RUN mv /tmp/config/phase0/ncs.conf.xml $NCS_CONFIG_DIR/ncs.conf \
     && mv /tmp/config/phase1/authgroups.xml $NCS_RUN_DIR/cdb/ \
@@ -35,10 +42,13 @@ RUN mv /tmp/config/phase0/ncs.conf.xml $NCS_CONFIG_DIR/ncs.conf \
     && mv /tmp/scripts/setup_demo_environment.sh $NCS_CONFIG_DIR/post-ncs-start.d/setup_demo_environment.sh \
     && chmod a+x $NCS_CONFIG_DIR/post-ncs-start.d/10-cron-logrotate.sh \
     && chmod a+x $NCS_CONFIG_DIR/post-ncs-start.d/setup_demo_environment.sh \
+    && chmod a+x /tmp/scripts/inject_tacacs_env.sh \
+    && /tmp/scripts/inject_tacacs_env.sh \
     && ln -s $NCS_DIR/packages/neds/cisco-ios-cli-3.8 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-iosxr-cli-3.5 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-asa-cli-6.6 $NCS_RUN_DIR/packages/ \
     && ln -s $NCS_DIR/packages/neds/cisco-nx-cli-3.0 $NCS_RUN_DIR/packages/ \
+    && ln -s $NCS_DIR/packages/auth/cisco-nso-tacacs-auth/ $NCS_RUN_DIR/packages/ \
     && make -C /tmp/packages/router/src clean all \
     && chown -R developer /tmp/packages/router/ \
     && ln -s /tmp/packages/router/ $NCS_RUN_DIR/packages/
