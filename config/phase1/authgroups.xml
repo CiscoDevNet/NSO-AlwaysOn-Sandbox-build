@@ -2,6 +2,10 @@
   <authgroups>
     <group>
       <name>default</name>
+      <default-map>
+        <remote-name>admin</remote-name>
+        <remote-password>admin</remote-password>
+      </default-map>
       <umap>
         <local-user>admin</local-user>
         <remote-name>admin</remote-name>

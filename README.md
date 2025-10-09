@@ -131,10 +131,10 @@ git push origin main --tags
 
 1. **Clone the repository** with the specific NSO version specified on the [sandbox_env_vars.sh file](sandbox_env_vars.sh#L2) as a tag. You can also find all the tags created on the [GitHub tags](https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build/tags) page.
 
-   ```bash
-   git clone --branch v<version> https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build.git
-   cd NSO-AlwaysOn-Sandbox-build
-   ```
+```bash
+git clone --branch v<version> https://github.com/CiscoDevNet/NSO-AlwaysOn-Sandbox-build.git
+cd NSO-AlwaysOn-Sandbox-build
+```
 
 > [!NOTE]
 > Replace `<version>` with the actual NSO version you are updating to, e.g., `v6.4.4.1`
@@ -146,41 +146,44 @@ git push origin main --tags
 
 3. **Add the admin password and TACACS configuration**
 
-   Add the admin password and TACACS server configuration to a `.env` file in the root directory:
+Add the admin password and TACACS server configuration to a `.env` file in the root directory:
 
-   ```bash
-   cat > .env << EOF
-   ADMIN_PASSWORD=<admin_password>
-   TACACS_SERVER_HOST=<tacacs_server_ip>
-   TACACS_SERVER_PORT=<tacacs_server_port>
-   TACACS_SERVER_SECRET=<tacacs_server_secret>
-   EOF
-   ```
+```bash
+cat > .env << EOF
+ADMIN_PASSWORD=<admin_password>
+TACACS_SERVER_HOST=<tacacs_server_ip>
+TACACS_SERVER_PORT=<tacacs_server_port>
+TACACS_SERVER_SECRET=<tacacs_server_secret>
+EOF
+```
 
-   **TACACS Authentication**
-   Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
+**TACACS Authentication**
+Both `TACACS_SERVER_HOST` and `TACACS_SERVER_SECRET` are **required** environment variables.
 
-   The TACACS configuration is automatically created into NSO during build time and loaded at runtime.
+The TACACS configuration is automatically created into NSO during build time and loaded at runtime.
 
-   If either `TACACS_SERVER_HOST` or `TACACS_SERVER_SECRET` is missing, no tacacs configuration will be built. An error message will be displayed.
+If either `TACACS_SERVER_HOST` or `TACACS_SERVER_SECRET` is missing, no tacacs configuration will be built. An error message will be displayed.
 
 4. **Build for sandbox deployment**
 
-   ```bash
-   make extract-nso-image
-   make load-nso-image
-   make check-image-info
-   ```
+```bash
+sudo make -C ~/NSO-AlwaysOn-Sandbox-build extract-nso-image
+sudo make -C ~/NSO-AlwaysOn-Sandbox-build load-nso-image
+sudo make -C ~/NSO-AlwaysOn-Sandbox-build check-image-info
+```
 
-   ```bash
-   make build-deploy-sandbox
-   ```
+```bash
+sudo make -C ~/NSO-AlwaysOn-Sandbox-build build-deploy-sandbox
+```
 
 5. **Clean up** temporary files after deployment:
 
-   ```bash
-   make cleanup-temp-files
-   ```
+```bash
+sudo make -C ~/NSO-AlwaysOn-Sandbox-build cleanup-temp-files
+```
+
+> [!NOTE]
+> Remove the signed binary from the project root after deployment.
 
 ## 🛠️ Container Build Process
 
@@ -263,7 +266,6 @@ Go to <https://devnetsandbox.cisco.com/DevNet/> for sandbox access, launch the N
 
 - **Username**: `developer`
 - **Password**: `Services4Ever`
-- **Access Level**: Read-only.
 
 ## 📋 Development Notes
 
