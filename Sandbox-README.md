@@ -36,7 +36,7 @@ This is a SHARED Resource!!
 
 This is an Always-On sandbox is designed for simple automation use cases and is accessed by many users simultanously.
 
-Full admin privileges are afforded to each user. Please do NOT run commands that affect connectivity. Doing so will cause the switch to reset back to a base configuration
+Full admin privileges are afforded to each user. Please do NOT run commands that affect connectivity.
 
 ## How to Access
 
