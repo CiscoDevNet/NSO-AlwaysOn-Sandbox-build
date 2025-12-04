@@ -49,8 +49,6 @@ You can interact with Cisco NSO through several Northbound interfaces:
 
 Access the NSO instance using the following public URL:
 
-> _**Note:**_ The Always-On credentials are for **READ-ONLY** access.
-
 - Address: `sandbox-nso-1.cisco.com`
 - Username: `<your-username-from-portal>`
 - Password: `<your-password-from-portal>`
